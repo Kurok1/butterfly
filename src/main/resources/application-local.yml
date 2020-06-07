@@ -1,0 +1,44 @@
+spring:
+    data:
+        mongodb: #mogno config...
+            database: butterfly
+            host: localhost
+            port: 27017
+    datasource:  #jdbc config...
+        driver-class-name: org.hsqldb.jdbc.JDBCDriver
+        username: sa
+        password:
+        url: jdbc:hsqldb:file:/E:/hsqldb/data/test
+    flyway: # flyway...
+        enabled: true
+        url: jdbc:hsqldb:file:/E:/hsqldb/data/test
+        user: sa
+        password:
+        locations: classpath:sqls/
+        encoding: UTF-8
+    kafka: # kafka...
+        bootstrap-servers: localhost:9092
+        consumer:
+            group-id: butterfly
+            client-id: butterfly-client
+    
+
+
+  # butterfly...
+butterfly:
+    app:
+        serverVersion: 1.0.0
+        allowDatabases:
+            -   driverClass: com.mysql.cj.jdbc.Driver
+                name: mysql
+            -   driverClass: oracle.jdbc.driver.OracleDriver
+                name: oracle
+            -   driverClass: com.microsoft.sqlserver.jdbc.SQLServerDriver
+                name: sqlserver
+        allowExecutors:
+            databaseRead:
+                id: butterfly.database.read
+                path: butterfly-database-read
+                executorClass: indi.butterfly.endpoint.DatabaseReadExecutor
+        
+        

@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "butterfly.app.allowDatabases",
+      "type": "java.util.List<indi.butterfly.autoconfigure.ButterflyProperties.DatabaseDefinition>",
+      "description": "配置默认允许的数据库连接驱动."
+    },
+    {
+      "name": "butterfly.app.serverVersion",
+      "type": "java.lang.String",
+      "description": "服务Server版本."
+    },
+    {
+      "name": "butterfly.app.allowExecutors",
+      "type": "java.util.Map<java.lang.String, indi.butterfly.autoconfigure.ButterflyProperties.ExecutorDefinition>",
+      "description": "配置当前支持的执行器."
+    }
+  ] }
