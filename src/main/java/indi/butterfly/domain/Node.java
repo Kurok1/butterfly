@@ -33,6 +33,10 @@ public class Node {
 
     private LocalDateTime lastUpdated;
 
+    private Integer nodeOrder;
+
+    private String executorId;
+
     public Long getId() {
         return id;
     }
@@ -103,5 +107,21 @@ public class Node {
 
     public void setLastUpdated(LocalDateTime lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public Integer getNodeOrder() {
+        return nodeOrder;
+    }
+
+    public void setNodeOrder(Integer nodeOrder) {
+        this.nodeOrder = nodeOrder;
+    }
+
+    public String getExecutorId() {
+        return executorId;
+    }
+
+    public void setExecutorId(String executorId) {
+        this.executorId = executorId;
     }
 }

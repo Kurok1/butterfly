@@ -15,6 +15,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
@@ -144,12 +145,56 @@ public class TextUtil {
         }
     }
 
-    public ObjectMapper getMapper(String format) {
+    public static ObjectMapper getMapper(String format) {
         if ("json".equals(format.toLowerCase()))
             return JSON;
         else if ("xml".equals(format.toLowerCase()))
             return XML;
         else return JSON;//不支持的格式按json处理
+    }
+
+    public static <T> T readJson(String json, Class<T> clazz) {
+        try {
+            return JSON.readValue(json, clazz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("读取json失败", e);
+            return null;
+        }
+    }
+
+    public static <T> T readXml(String xml, Class<T> clazz) {
+        try {
+            return XML.readValue(xml, clazz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("读取XML失败", e);
+            return null;
+        }
+    }
+
+    public static Object[] asArray(String json) {
+        try {
+            return JSON.readValue(json, Object[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("读取json失败", e);
+            return null;
+        }
+    }
+
+    public static String writeObjectByFormat(Object object, String format) {
+        try {
+            if ("json".equals(format.toLowerCase()))
+                return JSON.writeValueAsString(object);
+            else if ("xml".equals(format.toLowerCase()))
+                return XML.writeValueAsString(object);
+            else return JSON.writeValueAsString(object);//不支持的格式按json处理
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
     }
 
 }

@@ -26,4 +26,24 @@ public class MessageFactory {
         return responseMessage;
     }
 
+    public static Message error(String msg) {
+        Message message = new Message();
+        message.setCode(1);
+        message.setError(true);
+        message.setMsg(msg);
+        return message;
+    }
+
+    public static Message success(String msg) {
+        Message message = new Message();
+        message.setCode(0);
+        message.setError(false);
+        message.setMsg(msg);
+        return message;
+    }
+
+    public static Message success() {
+        return success("success");
+    }
+
 }

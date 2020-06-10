@@ -1,7 +1,9 @@
 package indi.butterfly.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Min;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,11 @@ import java.util.Map;
  * @version 2020.06.07
  */
 @ConfigurationProperties(prefix = "butterfly.app")
+@Validated
 public final class ButterflyProperties {
+
+    @Min(value = 0)
+    private Long loginExpiredSecond;
 
     private String serverVersion;
 
@@ -35,6 +41,14 @@ public final class ButterflyProperties {
 
     public void setServerVersion(String serverVersion) {
         this.serverVersion = serverVersion;
+    }
+
+    public Long getLoginExpiredSecond() {
+        return loginExpiredSecond;
+    }
+
+    public void setLoginExpiredSecond(Long loginExpiredSecond) {
+        this.loginExpiredSecond = loginExpiredSecond;
     }
 
     public Map<String, ExecutorDefinition> getAllowExecutors() {
@@ -68,7 +82,7 @@ public final class ButterflyProperties {
     }
 
     public static class ExecutorDefinition {
-        private String path; //kafka topic...
+        private String topic; //kafka topic...
 
         private String id; //executor id
 
@@ -76,12 +90,12 @@ public final class ButterflyProperties {
 
         private String xsltPath; //xslt 转换文件路径
 
-        public String getPath() {
-            return path;
+        public String getTopic() {
+            return topic;
         }
 
-        public void setPath(String path) {
-            this.path = path;
+        public void setTopic(String topic) {
+            this.topic = topic;
         }
 
         public String getExecutorClass() {

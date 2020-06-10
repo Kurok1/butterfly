@@ -17,7 +17,7 @@ import java.util.Optional;
 @Repository
 public interface DatasourceConfigRepository extends PagingAndSortingRepository<DatasourceConfig, Long> {
 
-    Optional<DatasourceConfig> findByCode(String code);
+    Optional<DatasourceConfig> findFirstByCode(String code);
 
     @Query("SELECT DISTINCT driverClass FROM datasource_config")
     List<String> findAllDrive();

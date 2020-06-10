@@ -21,12 +21,17 @@ spring:
         consumer:
             group-id: butterfly
             client-id: butterfly-client
+    redis: # redis
+        database: 0
+        host: localhost
+        port: 6379
     
-
-
-  # butterfly...
+    
+    
+    # butterfly...
 butterfly:
     app:
+        loginExpiredSecond: 600 #登录超时时长 秒为单位
         serverVersion: 1.0.0
         allowDatabases:
             -   driverClass: com.mysql.cj.jdbc.Driver
@@ -38,7 +43,7 @@ butterfly:
         allowExecutors:
             databaseRead:
                 id: butterfly.database.read
-                path: butterfly-database-read
+                topic: butterfly-database-read
                 executorClass: indi.butterfly.endpoint.DatabaseReadExecutor
         
         

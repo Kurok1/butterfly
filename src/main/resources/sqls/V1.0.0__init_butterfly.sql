@@ -34,6 +34,8 @@ CREATE TABLE node (
     name varchar(50) NOT NULL,
     nodeType varchar(50) NOT NULL,
     config varchar(50) NOT NULL,
+    nodeOrder int NOT NULL,
+    executorId varchar(50) NOT NULL,
     createdBy varchar(50) NULL,
     created timestamp NULL,
     lastUpdatedBy varchar(50) NULL,

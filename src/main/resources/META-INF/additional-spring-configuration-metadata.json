@@ -14,5 +14,10 @@
       "name": "butterfly.app.allowExecutors",
       "type": "java.util.Map<java.lang.String, indi.butterfly.autoconfigure.ButterflyProperties.ExecutorDefinition>",
       "description": "配置当前支持的执行器."
+    },
+    {
+      "name": "butterfly.app.loginExpiredSecond",
+      "type": "java.lang.Long",
+      "description": "登录超时时间."
     }
   ] }
