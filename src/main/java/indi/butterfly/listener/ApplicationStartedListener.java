@@ -1,7 +1,7 @@
 package indi.butterfly.listener;
 
 import indi.butterfly.autoconfigure.ButterflyProperties;
-import indi.butterfly.endpoint.IExecutor;
+import indi.butterfly.executor.IExecutor;
 import indi.butterfly.util.ExecutorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

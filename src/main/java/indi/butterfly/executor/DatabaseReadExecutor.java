@@ -1,4 +1,4 @@
-package indi.butterfly.endpoint;
+package indi.butterfly.executor;
 
 import indi.butterfly.Message;
 import indi.butterfly.MessageFactory;
@@ -95,7 +95,7 @@ public class DatabaseReadExecutor implements IExecutor {
     @KafkaListener(topics = {"butterfly-database-read"}, id = "butterfly.database.read")
     public ResponseMessage<Object> execute(ButterflyMessage message) {
         //执行逻辑
-        //1.预处理
+        //预处理
         Message result = beforeExecute(message);
         if (result.isError()) {
             //记录日志
@@ -114,7 +114,7 @@ public class DatabaseReadExecutor implements IExecutor {
         }
         if (queryResult.size() > 0 && StringUtils.hasLength(readTemplate.getGroupField())) {
             //合并结果
-            final List<String> fields = Arrays.asList(readTemplate.getGroupField().split(","));
+            final String[] fields = readTemplate.getGroupField().split(",");
             List<Map<String, Object>> tempResult = new LinkedList<>();
             Map<String, List<Map<String, Object>>> groupResult = queryResult.stream().collect(
                     Collectors.groupingByConcurrent(
@@ -155,7 +155,7 @@ public class DatabaseReadExecutor implements IExecutor {
                     message.isAsync(),
                     readTemplate.getFormat()
             );
-            if (newMessage.isAsync()) {
+            if (newMessage.isAsync()) {//开启异步
                 sender.sendMessage(nextNode.getExecutorId(), newMessage);
                 return MessageFactory.successResponse("success", queryResult);
             } else {

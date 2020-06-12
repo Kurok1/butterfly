@@ -1,4 +1,4 @@
-package indi.butterfly.endpoint;
+package indi.butterfly.executor;
 
 import indi.butterfly.Message;
 import indi.butterfly.ResponseMessage;

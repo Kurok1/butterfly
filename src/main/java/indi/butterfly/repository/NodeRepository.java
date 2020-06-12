@@ -4,6 +4,7 @@ import indi.butterfly.domain.Node;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,4 +18,5 @@ public interface NodeRepository extends PagingAndSortingRepository<Node, Long> {
 
     Optional<Node> findFirstByCode(String code);
 
+    List<Node> findAllByRouteIdOrderByNodeOrderDesc(Long routeId);
 }

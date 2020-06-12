@@ -3,11 +3,13 @@ package indi.butterfly.autoconfigure;
 import indi.butterfly.core.AuthFilter;
 import indi.butterfly.core.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.DispatcherType;
 import java.util.Collections;
@@ -36,5 +38,11 @@ public class ButterflyAutoConfiguration {
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
 
         return bean;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(value = RestTemplate.class)
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }

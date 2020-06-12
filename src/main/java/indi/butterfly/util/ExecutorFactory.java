@@ -1,7 +1,7 @@
 package indi.butterfly.util;
 
 import indi.butterfly.autoconfigure.ButterflyProperties;
-import indi.butterfly.endpoint.IExecutor;
+import indi.butterfly.executor.IExecutor;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

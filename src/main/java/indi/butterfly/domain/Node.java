@@ -37,6 +37,8 @@ public class Node {
 
     private String executorId;
 
+    private Long routeId;
+
     public Long getId() {
         return id;
     }
@@ -123,5 +125,13 @@ public class Node {
 
     public void setExecutorId(String executorId) {
         this.executorId = executorId;
+    }
+
+    public Long getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(Long routeId) {
+        this.routeId = routeId;
     }
 }

@@ -44,6 +44,10 @@ butterfly:
             databaseRead:
                 id: butterfly.database.read
                 topic: butterfly-database-read
-                executorClass: indi.butterfly.endpoint.DatabaseReadExecutor
+                executorClass: indi.butterfly.executor.DatabaseReadExecutor
+            httpRequest:
+                id : butterfly.http.request
+                topic: butterfly-http-request
+                executorClass: indi.butterfly.executor.HttpRequestExecutor
         
         
