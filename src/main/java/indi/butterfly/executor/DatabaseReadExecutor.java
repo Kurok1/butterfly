@@ -5,29 +5,31 @@ import indi.butterfly.MessageFactory;
 import indi.butterfly.ResponseMessage;
 import indi.butterfly.core.ButterflyMessage;
 import indi.butterfly.core.ButterflyMessageSender;
+import indi.butterfly.core.QueryResultWrapper;
 import indi.butterfly.domain.DatasourceConfig;
 import indi.butterfly.domain.Node;
 import indi.butterfly.repository.DatasourceConfigRepository;
 import indi.butterfly.repository.NodeRepository;
 import indi.butterfly.template.DatabaseReadTemplate;
+import indi.butterfly.util.ConnectionManager;
 import indi.butterfly.util.ExecutorFactory;
 import indi.butterfly.util.TextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.sql.Driver;
-import java.util.Arrays;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 数据库读取
@@ -74,15 +76,11 @@ public class DatabaseReadExecutor implements IExecutor {
             logger.error("未找到相应的数据源: {}", readTemplate.getDatasource());
             return MessageFactory.error(String.format("未找到相应的数据源 %s", readTemplate.getDatasource()));
         }
-        //初始化数据源给jdbcTemplate
-        Driver driver = null;
-        try {
-            driver = (Driver) Class.forName(datasourceConfig.getDriverClass()).newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            logger.error("暂不支持的数据库驱动: {}", datasourceConfig.getDriverClass());
-            return MessageFactory.error(String.format("暂不支持的数据库驱动 %s", datasourceConfig.getDriverClass()));
+        DataSource dataSource = ConnectionManager.getDataSource(datasourceConfig);
+        if (dataSource == null) {
+            logger.error("数据库连接错误");
+            return MessageFactory.error("数据库连接错误");
         }
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource(driver, datasourceConfig.getUrl(), datasourceConfig.getUser(), datasourceConfig.getPassword());
         this.jdbcTemplate.setDataSource(dataSource);
 
         if (StringUtils.isEmpty(readTemplate.getSql()))
@@ -104,35 +102,13 @@ public class DatabaseReadExecutor implements IExecutor {
             return MessageFactory.errorResponse(result.getMsg());
         }
 
-        List<Map<String, Object>> queryResult = new LinkedList<>();
+        List<QueryResultWrapper> queryResult = new LinkedList<>();
         if (readTemplate.getParamType() == 1) {
             parameterJdbcTemplate = new NamedParameterJdbcTemplate(this.jdbcTemplate);
-            queryResult = parameterJdbcTemplate.queryForList(readTemplate.getSql(), message.getRequestParam());
+            queryResult = parameterJdbcTemplate.query(readTemplate.getSql(), message.getRequestParam(), new WrapperExtractor());
         } else {
             Object[] objects = TextUtil.asArray(message.getRequestBody());
-            queryResult = this.jdbcTemplate.queryForList(readTemplate.getSql(), objects);
-        }
-        if (queryResult.size() > 0 && StringUtils.hasLength(readTemplate.getGroupField())) {
-            //合并结果
-            final String[] fields = readTemplate.getGroupField().split(",");
-            List<Map<String, Object>> tempResult = new LinkedList<>();
-            Map<String, List<Map<String, Object>>> groupResult = queryResult.stream().collect(
-                    Collectors.groupingByConcurrent(
-                            (item)-> {
-                                StringBuffer key = new StringBuffer();
-                                for (String field : fields)
-                                    key.append(item.get(field).toString()).append("|");
-                                return key.toString();
-                            }
-                    )
-            );
-            groupResult.forEach(
-                    (key, value)-> {
-                        tempResult.add(value.get(0));//只取第一条作为合并结果
-                    }
-            );
-
-            queryResult = tempResult;
+            queryResult = this.jdbcTemplate.query(readTemplate.getSql(), objects, new WrapperExtractor());
         }
         //判断是否还有下一个节点
         if (message.hasNextNode()) {
@@ -183,5 +159,24 @@ public class DatabaseReadExecutor implements IExecutor {
     @Override
     public String getExecutorId() {
         return "butterfly.database.read";
+    }
+
+
+    public static class WrapperExtractor implements ResultSetExtractor<List<QueryResultWrapper>> {
+        @Override
+        public List<QueryResultWrapper> extractData(ResultSet rs) throws SQLException, DataAccessException {
+            List<QueryResultWrapper> wrappers = new LinkedList<>();
+            while (rs.next()) {
+                List<QueryResultWrapper.QueryResultElement> elements = new LinkedList<>();
+                int columnCount = rs.getMetaData().getColumnCount();//获取列的数量
+                for (int i = 1 ; i <= columnCount ; i++) {
+                    String name = rs.getMetaData().getColumnLabel(i);
+                    Object value = rs.getObject(i);
+                    elements.add(QueryResultWrapper.QueryResultElement.of(i - 1, name, value));
+                }
+                wrappers.add(new QueryResultWrapper(elements));
+            }
+            return wrappers;
+        }
     }
 }

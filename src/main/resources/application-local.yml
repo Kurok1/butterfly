@@ -39,7 +39,7 @@ butterfly:
             -   driverClass: oracle.jdbc.driver.OracleDriver
                 name: oracle
             -   driverClass: com.microsoft.sqlserver.jdbc.SQLServerDriver
-                name: sqlserver
+                name: sql-server
         allowExecutors:
             databaseRead:
                 id: butterfly.database.read
@@ -49,5 +49,9 @@ butterfly:
                 id : butterfly.http.request
                 topic: butterfly-http-request
                 executorClass: indi.butterfly.executor.HttpRequestExecutor
+            databaseWrite:
+                id: butterfly.database.write
+                topic: butterfly-database-write
+                executorClass: indi.butterfly.executor.DatabaseWriteExecutor
         
         
