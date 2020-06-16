@@ -33,7 +33,7 @@ public class ButterflyAutoConfiguration {
         FilterRegistrationBean<AuthFilter> bean = new FilterRegistrationBean<>();
 
         bean.setFilter(authFilter);
-        bean.setUrlPatterns(Collections.singletonList("/*"));
+        bean.setUrlPatterns(Collections.singletonList("/**"));
         bean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE);
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
 

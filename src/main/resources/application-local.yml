@@ -53,5 +53,9 @@ butterfly:
                 id: butterfly.database.write
                 topic: butterfly-database-write
                 executorClass: indi.butterfly.executor.DatabaseWriteExecutor
+            xsltTransform:
+                id: butterfly.xslt.transform
+                topic: butterfly-xslt-transform
+                executorClass: indi.butterfly.executor.XsltTransformExecutor
         
         

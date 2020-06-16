@@ -1,6 +1,7 @@
 package indi.butterfly.listener;
 
 import indi.butterfly.autoconfigure.ButterflyProperties;
+import indi.butterfly.core.XsltService;
 import indi.butterfly.executor.IExecutor;
 import indi.butterfly.util.ExecutorFactory;
 import org.slf4j.Logger;
@@ -33,9 +34,12 @@ public class ApplicationStartedListener implements ApplicationListener<Applicati
 
     private final ButterflyProperties properties;
 
+    private final XsltService xsltService;
+
     @Autowired
-    public ApplicationStartedListener(ButterflyProperties butterflyProperties) {
+    public ApplicationStartedListener(ButterflyProperties butterflyProperties, XsltService xsltService) {
         this.properties = butterflyProperties;
+        this.xsltService = xsltService;
     }
 
     @Override
@@ -78,5 +82,10 @@ public class ApplicationStartedListener implements ApplicationListener<Applicati
                 }
         );
         logger.info("注册executor配置信息完成");
+
+        this.xsltService.clearCache();
+        logger.info("开始缓存xslt数据");
+        this.xsltService.loadXslt();
+        logger.info("缓存xslt数据完成");
     }
 }

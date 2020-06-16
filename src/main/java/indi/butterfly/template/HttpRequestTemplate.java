@@ -1,5 +1,6 @@
 package indi.butterfly.template;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -8,7 +9,9 @@ import java.util.Map;
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.12
  */
-public class HttpRequestTemplate {
+public class HttpRequestTemplate implements Serializable {
+
+    private static final long serialVersionUID = 4727905519266151280L;
 
     /**
      * 请求路径

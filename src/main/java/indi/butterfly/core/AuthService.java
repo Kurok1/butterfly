@@ -26,13 +26,13 @@ public class AuthService {
         return String.format("%s|%s", USER_KEY_PREFIX, userCode);
     }
 
-    private final StringRedisTemplate redisTemplate;
+    private final RedisService redisService;
 
     private final ButterflyProperties butterflyProperties;
 
     @Autowired
-    public AuthService(StringRedisTemplate redisTemplate, ButterflyProperties butterflyProperties) {
-        this.redisTemplate = redisTemplate;
+    public AuthService(RedisService redisService, ButterflyProperties butterflyProperties) {
+        this.redisService = redisService;
         this.butterflyProperties = butterflyProperties;
     }
 
@@ -44,17 +44,17 @@ public class AuthService {
      */
     public synchronized String login(String userCode) {
         String redisKey = getRedisKey(userCode);
-        Boolean hasKey = this.redisTemplate.hasKey(redisKey);
+        Boolean hasKey = this.redisService.hasKey(redisKey);
         long currentTimeStamp = System.currentTimeMillis() / 1000;
         String token = UUID.fromString(userCode + "|" + currentTimeStamp).toString();
-        this.redisTemplate.opsForValue().set(redisKey, token, this.butterflyProperties.getLoginExpiredSecond(), TimeUnit.SECONDS);
+        this.redisService.set(redisKey, token, this.butterflyProperties.getLoginExpiredSecond(), TimeUnit.SECONDS);
         return token;
     }
 
     public synchronized Message auth(String userCode, String token) {
         String redisKey = getRedisKey(userCode);
-        Boolean flag = this.redisTemplate.hasKey(redisKey);
-        if (flag != null && flag)
+        boolean flag = this.redisService.hasKey(redisKey);
+        if (flag)
             return MessageFactory.success();
         else return MessageFactory.error("登录超时,请重新登录");
     }

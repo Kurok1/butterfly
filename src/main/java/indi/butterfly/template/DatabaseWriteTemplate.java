@@ -1,12 +1,16 @@
 package indi.butterfly.template;
 
+import java.io.Serializable;
+
 /**
  * 数据库读写配置模板
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.15
  */
-public class DatabaseWriteTemplate {
+public class DatabaseWriteTemplate implements Serializable {
+
+    private static final long serialVersionUID = 4160892788651358907L;
 
     private String datasource;//数据源
 
