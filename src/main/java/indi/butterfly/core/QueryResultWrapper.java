@@ -1,5 +1,8 @@
 package indi.butterfly.core;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.springframework.util.Assert;
 
 import java.util.*;
@@ -11,8 +14,11 @@ import java.util.*;
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.15
  */
+@JacksonXmlRootElement(localName = "result")
 public class QueryResultWrapper {
 
+    @JacksonXmlElementWrapper(localName = "rows")
+    @JacksonXmlProperty(localName = "row")
     private List<QueryResultElement> data = new LinkedList<>();
 
     public List<QueryResultElement> getData() {

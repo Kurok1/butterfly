@@ -52,6 +52,10 @@ public class XsltService {
     public void loadXslt() {
         Iterable<XsltDefinition> list = this.xsltDefinitionRepository.findAll();
         Iterator<XsltDefinition> iterator = list.iterator();
+        if (!iterator.hasNext()) {
+            logger.warn("没有需要加载的xslt");
+            return;
+        }
         while (iterator.hasNext()) {
             XsltDefinition xslt = iterator.next();
             this.redisService.set(XSLT_KEY_PREFIX + xslt.getCode(), xslt.getXsltValue());

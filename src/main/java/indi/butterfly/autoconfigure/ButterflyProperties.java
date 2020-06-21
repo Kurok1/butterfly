@@ -1,6 +1,7 @@
 package indi.butterfly.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Min;
@@ -16,7 +17,8 @@ import java.util.Map;
  */
 @ConfigurationProperties(prefix = "butterfly.app")
 @Validated
-public final class ButterflyProperties {
+@Component
+public class ButterflyProperties {
 
     @Min(value = 0)
     private Long loginExpiredSecond;

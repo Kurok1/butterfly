@@ -4,6 +4,7 @@ import indi.butterfly.Message;
 import indi.butterfly.MessageFactory;
 import indi.butterfly.autoconfigure.ButterflyProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +29,20 @@ public class AuthService {
 
     private final RedisService redisService;
 
-    private final ButterflyProperties butterflyProperties;
+    private long loginExpiredSecond;
 
     @Autowired
-    public AuthService(RedisService redisService, ButterflyProperties butterflyProperties) {
+    public AuthService(RedisService redisService) {
         this.redisService = redisService;
-        this.butterflyProperties = butterflyProperties;
+    }
+
+    public long getLoginExpiredSecond() {
+        return loginExpiredSecond;
+    }
+
+    @Value("${butterfly.app.loginExpiredSecond}")
+    public void setButterflyProperties(long loginExpiredSecond) {
+        this.loginExpiredSecond = loginExpiredSecond;
     }
 
     /**
@@ -47,7 +56,7 @@ public class AuthService {
         Boolean hasKey = this.redisService.hasKey(redisKey);
         long currentTimeStamp = System.currentTimeMillis() / 1000;
         String token = UUID.fromString(userCode + "|" + currentTimeStamp).toString();
-        this.redisService.set(redisKey, token, this.butterflyProperties.getLoginExpiredSecond(), TimeUnit.SECONDS);
+        this.redisService.set(redisKey, token, this.loginExpiredSecond, TimeUnit.SECONDS);
         return token;
     }
 
