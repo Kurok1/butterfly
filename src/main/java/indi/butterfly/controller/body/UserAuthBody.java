@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.10
+ * @since 1.0.0
  */
 public class UserAuthBody {
 

@@ -13,6 +13,7 @@ import java.sql.Driver;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.05.20
+ * @since 1.0.0
  */
 public class ConnectionManager {
 

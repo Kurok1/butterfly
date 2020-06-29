@@ -11,6 +11,7 @@ import java.util.Optional;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.21
+ * @since 1.0.0
  */
 @Repository
 public interface RouteRepository extends PagingAndSortingRepository<Route, Long> {

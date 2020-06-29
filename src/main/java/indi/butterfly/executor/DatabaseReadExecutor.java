@@ -22,7 +22,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
@@ -36,8 +36,10 @@ import java.util.List;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.07
+ * @since 1.0.0
+ * @see IExecutor
  */
-@Service
+@Component
 public class DatabaseReadExecutor implements IExecutor {
 
     private final Logger logger = LoggerFactory.getLogger(DatabaseReadExecutor.class);

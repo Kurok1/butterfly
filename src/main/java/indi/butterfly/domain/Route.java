@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.21
+ * @since 1.0.0
  */
 @Table("route")
 public class Route {

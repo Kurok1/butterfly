@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.07
+ * @since 1.0.0
  */
 @RestController
 @RequestMapping("api")

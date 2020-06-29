@@ -13,6 +13,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.05.26
+ * @since 1.0.0
  */
 @NoRepositoryBean
 public class BaseController {

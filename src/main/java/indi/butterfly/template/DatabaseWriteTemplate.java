@@ -7,6 +7,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.15
+ * @since 1.0.0
  */
 public class DatabaseWriteTemplate implements Serializable {
 

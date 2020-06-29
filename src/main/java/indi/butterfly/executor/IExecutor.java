@@ -9,7 +9,7 @@ import indi.butterfly.core.ButterflyMessage;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.07
- * @see DatabaseReadExecutor
+ * @since 1.0.0
  */
 public interface IExecutor {
 

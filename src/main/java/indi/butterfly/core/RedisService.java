@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.16
+ * @since 1.0.0
  */
 @Service
 public class RedisService {

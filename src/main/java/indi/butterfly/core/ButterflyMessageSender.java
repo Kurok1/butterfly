@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.07
+ * @since 1.0.0
  * @see indi.butterfly.core.ButterflyMessage
  * @see KafkaTemplate
  */

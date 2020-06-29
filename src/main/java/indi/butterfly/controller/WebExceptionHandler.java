@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.05.19
+ * @since 1.0.0
  */
 @RestControllerAdvice
 public class WebExceptionHandler {

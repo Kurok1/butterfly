@@ -57,5 +57,9 @@ butterfly:
                 id: butterfly.xslt.transform
                 topic: butterfly-xslt-transform
                 executorClass: indi.butterfly.executor.XsltTransformExecutor
+            localFileWrite:
+                id: butterfly.localFile.write
+                topic: butterfly-localFile-write
+                executorClass: indi.butterfly.executor.LocalWriteFileExecutor
         
         

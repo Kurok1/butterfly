@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.05.26
+ * @since 1.0.0
  */
 @Table("http_request_config")
 public class HttpRequestConfig {

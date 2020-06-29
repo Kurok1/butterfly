@@ -19,6 +19,12 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
+/**
+ * 文本操作工具
+ * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
+ * @version 2020.06.09
+ * @since 1.0.0
+ */
 public class TextUtil {
 
     private final static String key = "abutterz";

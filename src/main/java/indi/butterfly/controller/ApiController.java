@@ -28,6 +28,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.21
+ * @since 1.0.0
  */
 @RestController
 public class ApiController extends BaseController {

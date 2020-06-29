@@ -19,6 +19,7 @@ import java.util.Collections;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.07
+ * @since 1.0.0
  */
 @Configuration
 @EnableConfigurationProperties(ButterflyProperties.class)

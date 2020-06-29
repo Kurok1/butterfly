@@ -7,6 +7,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.09
+ * @since 1.0.0
  */
 public class DatabaseReadTemplate implements Serializable {
 

@@ -11,6 +11,7 @@ import java.util.Optional;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.05.26
+ * @since 1.0.0
  */
 @Repository
 public interface AppRepository extends PagingAndSortingRepository<App, Long> {

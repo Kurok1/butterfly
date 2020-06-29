@@ -5,6 +5,13 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
+/**
+ * 定义一个api路由
+ *
+ * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
+ * @version 2020.06.21
+ * @since 1.0.0
+ */
 @Table("user")
 public class User {
 

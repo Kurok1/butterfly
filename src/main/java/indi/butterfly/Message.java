@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
  * 消息体
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.05.19
+ * @since 1.0.0
  */
 public class Message {
 

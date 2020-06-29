@@ -11,6 +11,7 @@ import java.util.Queue;
  *
  * @author <a href="mailto:maimengzzz@gmail.com">kuroky</a>
  * @version 2020.06.07
+ * @since 1.0.0
  */
 public class ButterflyMessage implements Serializable {
 
