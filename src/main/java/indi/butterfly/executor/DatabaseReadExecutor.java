@@ -73,7 +73,7 @@ public class DatabaseReadExecutor implements IExecutor {
             return MessageFactory.error("读取配置数据错误");
         }
         //查找数据源配置
-        DatasourceConfig datasourceConfig = this.datasourceConfigRepository.findFirstByCode(readTemplate.getDatasource()).orElse(null);
+        DatasourceConfig datasourceConfig = this.datasourceConfigRepository.getByCode(readTemplate.getDatasource()).orElse(null);
         if (datasourceConfig == null) {
             logger.error("未找到相应的数据源: {}", readTemplate.getDatasource());
             return MessageFactory.error(String.format("未找到相应的数据源 %s", readTemplate.getDatasource()));
@@ -116,7 +116,7 @@ public class DatabaseReadExecutor implements IExecutor {
         if (message.hasNextNode()) {
             //继续传递
             String node = message.getNextNodes().poll();
-            Node nextNode = this.nodeRepository.findFirstByCode(node).orElse(null);
+            Node nextNode = this.nodeRepository.getByCode(node).orElse(null);
             if (nextNode == null ) {
                 logger.error("未找到相应的节点 {}", node);
                 if (!message.isAsync())

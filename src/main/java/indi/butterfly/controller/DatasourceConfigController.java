@@ -51,7 +51,7 @@ public class DatasourceConfigController extends BaseController {
 
     @GetMapping("/code/{code}")
     public ResponseMessage<DatasourceConfig> getByCode(@PathVariable("code") String code) {
-        return MessageFactory.successResponse("success", datasourceConfigRepository.findFirstByCode(code).orElse(null));
+        return MessageFactory.successResponse("success", datasourceConfigRepository.getByCode(code).orElse(null));
     }
 
     @DeleteMapping("/{id}")

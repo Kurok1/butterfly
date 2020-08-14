@@ -1,7 +1,10 @@
 package indi.butterfly.repository;
 
 import indi.butterfly.domain.Route;
+import indi.butterfly.support.BooleanRowMapper;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -16,8 +19,10 @@ import java.util.Optional;
 @Repository
 public interface RouteRepository extends PagingAndSortingRepository<Route, Long> {
 
-    Optional<Route> getByAppKeyAndRouteKey(String appKey, String routeKey);
+    @Query("select * from route where appKey = :appKey and routeKey = :routeKey")
+    Optional<Route> getByAppKeyAndRouteKey(@Param("appKey") String appKey,@Param("routeKey") String routeKey);
 
-    boolean existsByAppKeyAndCode(String appKey, String code);
+    @Query(value = "select count(1) from route where appKey = :appKey and routeKey = :routeKey", rowMapperClass = BooleanRowMapper.class)
+    boolean existsByAppKeyAndCode(@Param("appKey") String appKey,@Param("routeKey") String routeKey);
 
 }

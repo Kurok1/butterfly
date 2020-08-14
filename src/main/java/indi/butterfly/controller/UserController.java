@@ -46,7 +46,7 @@ public class UserController extends BaseController {
         }
 
         //密码处理
-        String password = TextUtil.decode(user.getPassword().getBytes());
+        String password = TextUtil.toPassword(user.getPassword());
         if (StringUtils.isEmpty(password))
             return MessageFactory.errorResponse("密码不能为空");
         password = TextUtil.toPassword(password);

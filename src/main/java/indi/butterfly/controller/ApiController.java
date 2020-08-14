@@ -10,6 +10,7 @@ import indi.butterfly.executor.IExecutor;
 import indi.butterfly.repository.NodeRepository;
 import indi.butterfly.repository.RouteRepository;
 import indi.butterfly.util.ExecutorFactory;
+import indi.butterfly.util.TextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -71,7 +73,19 @@ public class ApiController extends BaseController {
         ButterflyMessage message = new ButterflyMessage();
         message.setSession(getSession(request));
         message.setAsync(route.isAsync() == 1);
-        message.setRequestParam(new HashMap<>());
+
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        HashMap<String, Object> param = new HashMap<>();
+        parameterMap.forEach(
+                (key, value)-> {
+                    if (value.length == 1)
+                        param.put(key, value[0]);
+                    else {
+                        param.put(key, TextUtil.writeObjectByFormat(value, format));
+                    }
+                }
+        );
+        message.setRequestParam(param);
         message.setBodyFormat(format);//默认都是json
         message.setRequestBody(body);
         message.setNextNodes(nodeQueue);

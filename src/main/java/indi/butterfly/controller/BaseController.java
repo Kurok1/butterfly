@@ -25,8 +25,7 @@ public class BaseController {
     private final static String PARAM_HEADER = "B_PARAM";
 
     protected String getUser(HttpServletRequest request) {
-        String user = request.getHeader(USER_HEADER);
-        return TextUtil.decode(user.getBytes());
+        return request.getHeader(USER_HEADER);
     }
 
 

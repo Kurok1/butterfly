@@ -1,7 +1,9 @@
 package indi.butterfly.repository;
 
 import indi.butterfly.domain.Node;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,7 +19,9 @@ import java.util.Optional;
 @Repository
 public interface NodeRepository extends PagingAndSortingRepository<Node, Long> {
 
-    Optional<Node> findFirstByCode(String code);
+    @Query("select * from node where code = :code")
+    Optional<Node> getByCode(@Param("code") String code);
 
-    List<Node> findAllByRouteIdOrderByNodeOrderDesc(Long routeId);
+    @Query("select * from node where routeId = :routeId order by nodeOrder desc")
+    List<Node> findAllByRouteIdOrderByNodeOrderDesc(@Param(":routeId") Long routeId);
 }

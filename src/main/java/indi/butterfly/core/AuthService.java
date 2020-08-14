@@ -42,7 +42,7 @@ public class AuthService {
     }
 
     @Value("${butterfly.app.loginExpiredSecond}")
-    public void setButterflyProperties(long loginExpiredSecond) {
+    public void setLoginExpiredSecond(long loginExpiredSecond) {
         this.loginExpiredSecond = loginExpiredSecond;
     }
 
@@ -56,7 +56,7 @@ public class AuthService {
         String redisKey = getRedisKey(userCode);
         Boolean hasKey = this.redisService.hasKey(redisKey);
         long currentTimeStamp = System.currentTimeMillis() / 1000;
-        String token = UUID.fromString(userCode + "|" + currentTimeStamp).toString();
+        String token = UUID.randomUUID().toString();
         this.redisService.set(redisKey, token, this.loginExpiredSecond, TimeUnit.SECONDS);
         return token;
     }
@@ -67,6 +67,13 @@ public class AuthService {
         if (flag)
             return MessageFactory.success();
         else return MessageFactory.error("登录超时,请重新登录");
+    }
+
+    public synchronized Message logout(String userCode) {
+        String redisKey = getRedisKey(userCode);
+        if (this.redisService.hasKey(redisKey))
+            this.redisService.delete(redisKey);
+        return MessageFactory.success();
     }
 
 }

@@ -21,7 +21,7 @@ public class ConnectionManager {
 
     /**
      * 获取一个数据库连接<br/>
-     * 这里不需要单独注册数据库驱动,驱动在应用启动的时候已经注册了{@link indi.butterfly.listener.ApplicationStartedListener#onApplicationEvent(org.springframework.boot.context.event.ApplicationStartedEvent)}
+     * 这里不需要单独注册数据库驱动,驱动在应用启动的时候已经注册了{@link indi.butterfly.initializer.ButterflyInitializer#onApplicationEvent(org.springframework.boot.context.event.ApplicationStartedEvent)}
      * @param datasourceConfig 数据库配置
      * @return 返回一个数据库连接
      */

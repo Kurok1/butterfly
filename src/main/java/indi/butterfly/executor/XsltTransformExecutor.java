@@ -81,7 +81,7 @@ public class XsltTransformExecutor implements IExecutor {
         if (message.hasNextNode()) {
             //继续传递
             String node = message.getNextNodes().poll();
-            Node nextNode = this.nodeRepository.findFirstByCode(node).orElse(null);
+            Node nextNode = this.nodeRepository.getByCode(node).orElse(null);
             if (nextNode == null) {
                 logger.error("未找到相应的节点 {}", node);
                 if (!message.isAsync())

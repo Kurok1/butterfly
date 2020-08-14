@@ -25,9 +25,13 @@ import java.nio.charset.StandardCharsets;
  */
 public class AuthFilter extends OncePerRequestFilter {
 
+    private final static String LOGIN_PATH = "/api/auth/login";
+
+    private final static String BUTTERFLY_API_PATH = "/api/butterfly/in";
+
     private final static String USER_HEADER = "B-USER";
 
-    private final static String TOKEN_HEADER = "B_TOKEN";
+    private final static String TOKEN_HEADER = "B-TOKEN";
 
     private final AuthService authService;
 
@@ -36,15 +40,19 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     @Override
+    protected void initFilterBean() throws ServletException {
+        super.initFilterBean();
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //读取请求体
-        String body = readInputStream(request);
         String token = request.getHeader(TOKEN_HEADER);
         String requestUser = request.getHeader(USER_HEADER);
-        UserAuthBody authBody = TextUtil.readJson(body, UserAuthBody.class);
         //认证逻辑
-        if (StringUtils.isEmpty(token) && authBody != null && !authBody.isNotAuth()) {
-            //说明这是第一次登录请求
+        String requestPath = request.getServletPath();//获取请求路径
+        if (LOGIN_PATH.equals(requestPath) || BUTTERFLY_API_PATH.equals(requestPath)) {
+            //说明这是第一次登录请求  或者是外部调用api,外部调用api不需要校验用户
             filterChain.doFilter(request, response);//放行,密码的校验留给controller
         } else if (StringUtils.hasLength(token) && StringUtils.hasLength(requestUser)) {
             //校验redis认证是否过期
@@ -61,35 +69,5 @@ public class AuthFilter extends OncePerRequestFilter {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
         }
 
-    }
-
-    /**
-     * 读取输入流
-     * @param request http 请求
-     * @return 请求体数据
-     */
-    private String readInputStream(HttpServletRequest request) throws IOException {
-        StringBuilder sb;
-        BufferedReader br;
-
-        br = new BufferedReader(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8));
-        sb = new StringBuilder();
-        char[] tempChars = new char[30];// 使用readLine会有回车换行的问题
-        int charread;
-        try {
-            while ((charread = br.read(tempChars)) != -1) {
-                if (charread != tempChars.length) {
-                    sb.append(String.valueOf(tempChars, 0, charread));
-                } else {
-                    sb.append(tempChars);
-                }
-            }
-        } catch (Throwable t) {
-            t.printStackTrace();
-            sb.setLength(0);
-        } finally {
-            br.close();
-        }
-        return sb.toString();
     }
 }

@@ -25,13 +25,26 @@ spring:
         database: 0
         host: localhost
         port: 6379
-    
+    jackson:
+        default-property-inclusion: ALWAYS
+
+management:
+    endpoint:
+        info:
+            enabled: true
+        health:
+            enabled: true
+    endpoints:
+        web:
+            exposure:
+                include: info,health
     
     
     # butterfly...
 butterfly:
     app:
         loginExpiredSecond: 600 #登录超时时长 秒为单位
+        autoClearEnabled: true
         serverVersion: 1.0.0
         allowDatabases:
             -   driverClass: com.mysql.cj.jdbc.Driver
@@ -60,6 +73,14 @@ butterfly:
             localFileWrite:
                 id: butterfly.localFile.write
                 topic: butterfly-localFile-write
-                executorClass: indi.butterfly.executor.LocalWriteFileExecutor
+                executorClass: indi.butterfly.executor.LocalFileWriteExecutor
+            localFileRead:
+                id: butterfly.localFile.read
+                topic: butterfly-localFile-read
+                executorClass: indi.butterfly.executor.LocalFileReadExecutor
+        logDefinitions:
+            exception_log: # 错误日志
+                logCollectionName: exception_log
+                daysToExpired: 30
         
         

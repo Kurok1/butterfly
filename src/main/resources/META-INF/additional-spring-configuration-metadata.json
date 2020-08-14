@@ -19,5 +19,15 @@
       "name": "butterfly.app.loginExpiredSecond",
       "type": "java.lang.Long",
       "description": "登录超时时间."
+    },
+    {
+      "name": "butterfly.app.autoClearEnabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启自动清理日志."
+    },
+    {
+      "name": "butterfly.app.logDefinitions",
+      "type": "java.util.Map<java.lang.String, indi.butterfly.autoconfigure.ButterflyProperties.LogDefinition>",
+      "description": "配置日志定义."
     }
   ] }

@@ -13,7 +13,7 @@ import java.util.Queue;
  * @version 2020.06.07
  * @since 1.0.0
  */
-public class ButterflyMessage implements Serializable {
+public class ButterflyMessage implements Serializable, Cloneable {
 
 
     private static final long serialVersionUID = 1087451148911322328L;
@@ -116,6 +116,7 @@ public class ButterflyMessage implements Serializable {
             String bodyFormat
     ) {
         ButterflyMessage message = new ButterflyMessage();
+        message.setSession(session);
         message.setConfigJson(configJson);
         message.setRequestBody(requestBody);
         message.setRequestParam(requestParam);

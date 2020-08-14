@@ -3,6 +3,7 @@ package indi.butterfly.repository;
 import indi.butterfly.domain.DatasourceConfig;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,7 +19,8 @@ import java.util.Optional;
 @Repository
 public interface DatasourceConfigRepository extends PagingAndSortingRepository<DatasourceConfig, Long> {
 
-    Optional<DatasourceConfig> findFirstByCode(String code);
+    @Query("select * from datasource_config where code = :code")
+    Optional<DatasourceConfig> getByCode(@Param("code") String code);
 
     @Query("SELECT DISTINCT driverClass FROM datasource_config")
     List<String> findAllDrive();

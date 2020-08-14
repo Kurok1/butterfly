@@ -137,7 +137,7 @@ public class DatabaseWriteExecutor implements IExecutor {
             return MessageFactory.error("读取配置数据错误");
         }
         //查找数据源配置
-        DatasourceConfig datasourceConfig = this.datasourceConfigRepository.findFirstByCode(writeTemplate.getDatasource()).orElse(null);
+        DatasourceConfig datasourceConfig = this.datasourceConfigRepository.getByCode(writeTemplate.getDatasource()).orElse(null);
         if (datasourceConfig == null) {
             logger.error("未找到相应的数据源: {}", writeTemplate.getDatasource());
             return MessageFactory.error(String.format("未找到相应的数据源 %s", writeTemplate.getDatasource()));

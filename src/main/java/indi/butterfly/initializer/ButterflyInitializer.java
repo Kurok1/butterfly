@@ -1,4 +1,4 @@
-package indi.butterfly.listener;
+package indi.butterfly.initializer;
 
 import indi.butterfly.autoconfigure.ButterflyProperties;
 import indi.butterfly.core.XsltService;
@@ -29,16 +29,16 @@ import java.util.stream.Collectors;
  * @see ExecutorFactory
  */
 @Component
-public class ApplicationStartedListener implements ApplicationListener<ApplicationStartedEvent> {
+public class ButterflyInitializer implements ApplicationListener<ApplicationStartedEvent> {
 
-    private final Logger logger = LoggerFactory.getLogger(ApplicationStartedListener.class);
+    private final Logger logger = LoggerFactory.getLogger(ButterflyInitializer.class);
 
     private final ButterflyProperties properties;
 
     private final XsltService xsltService;
 
     @Autowired
-    public ApplicationStartedListener(ButterflyProperties butterflyProperties, XsltService xsltService) {
+    public ButterflyInitializer(ButterflyProperties butterflyProperties, XsltService xsltService) {
         this.properties = butterflyProperties;
         this.xsltService = xsltService;
     }

@@ -18,11 +18,14 @@ import java.util.Map;
  */
 @ConfigurationProperties(prefix = "butterfly.app")
 @Validated
-@Component
 public class ButterflyProperties {
 
     @Min(value = 0)
     private Long loginExpiredSecond;
+
+    private boolean autoClearEnabled = true;//开启自动清理日志
+
+    private Map<String, LogDefinition> logDefinitions = new HashMap<>();
 
     private String serverVersion;
 
@@ -62,6 +65,25 @@ public class ButterflyProperties {
         this.allowExecutors = allowExecutors;
     }
 
+    public boolean isAutoClearEnabled() {
+        return autoClearEnabled;
+    }
+
+    public void setAutoClearEnabled(boolean autoClearEnabled) {
+        this.autoClearEnabled = autoClearEnabled;
+    }
+
+    public Map<String, LogDefinition> getLogDefinitions() {
+        return logDefinitions;
+    }
+
+    public void setLogDefinitions(Map<String, LogDefinition> logDefinitions) {
+        this.logDefinitions = logDefinitions;
+    }
+
+    /**
+     * @since 1.0.0
+     */
     public static class DatabaseDefinition {
         private String name;
 
@@ -84,14 +106,15 @@ public class ButterflyProperties {
         }
     }
 
+    /**
+     * @since 1.0.0
+     */
     public static class ExecutorDefinition {
         private String topic; //kafka topic...
 
         private String id; //executor id
 
         private String executorClass;
-
-        private String xsltPath; //xslt 转换文件路径
 
         public String getTopic() {
             return topic;
@@ -116,13 +139,33 @@ public class ButterflyProperties {
         public void setId(String id) {
             this.id = id;
         }
+    }
 
-        public String getXsltPath() {
-            return xsltPath;
+    /**
+     * @since 1.0.0
+     */
+    public static class LogDefinition {
+
+
+        private String logCollectionName;//需要清除的日志文件表
+
+        @Min(value = 1)
+        private Long daysToExpired;//设置过期时间,单位为天
+
+        public String getLogCollectionName() {
+            return logCollectionName;
         }
 
-        public void setXsltPath(String xsltPath) {
-            this.xsltPath = xsltPath;
+        public void setLogCollectionName(String logCollectionName) {
+            this.logCollectionName = logCollectionName;
+        }
+
+        public Long getDaysToExpired() {
+            return daysToExpired;
+        }
+
+        public void setDaysToExpired(Long daysToExpired) {
+            this.daysToExpired = daysToExpired;
         }
     }
 
