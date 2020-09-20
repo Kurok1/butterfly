@@ -2,18 +2,23 @@
 define [
     'js/component/HttpClient',
     'Vue',
+    'VueResource',
     'VueRouter'
-], (HttpClient, Vue, VueRouter)->
+], (HttpClient, Vue, VueResource,VueRouter )->
     {
+        _app: null
+
         start: (ele)->
-            #使用VueRouter
+            #init vue components...
             Vue.use(VueRouter)
+            Vue.use(VueResource)
             #定义组件
             Foo = { template: '<div>foo</div>' }
             Bar = { template: '<div>bar</div>' }
 
+            #定义路由
             routes = [
-                { path: '/foo', component: Foo },
+                { path: '/login'},
                 { path: '/bar', component: Bar }
             ]
 
@@ -23,11 +28,17 @@ define [
             app = new Vue({
                 router
             }).$mount(ele)
+            router.go('login.html')
+            @_app = app
 
-        build: ()->
-            HttpClient.get()
 
         getAppName: ()->
-            return "hello, world"
+            return "butterfly"
+
+        getAppVersion: ()->
+            return "1.0.0"
+
+        http: ()->
+            return new HttpClient(@_app)
 
     }

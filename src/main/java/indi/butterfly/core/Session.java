@@ -17,6 +17,8 @@ public class Session {
 
     private String token;
 
+    private String device;//来源设备
+
     private Map<String, Object> params;
 
     public String getUser() {
@@ -41,6 +43,14 @@ public class Session {
 
     public void setParams(Map<String, Object> params) {
         this.params = params;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
     }
 
     public static Session of(String user, String token, Map<String, Object> params) {

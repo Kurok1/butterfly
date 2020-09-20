@@ -66,12 +66,13 @@ public class ButterflyInitializer implements ApplicationListener<ApplicationStar
         ExecutorFactory.clear();
         logger.info("开始注册executor");
         //注册executor
-        String[] names = event.getApplicationContext().getBeanNamesForType(IExecutor.class);
-        for (String name : names) {
-            IExecutor executor = event.getApplicationContext().getBean(name, IExecutor.class);
-            logger.info("注册executor: path:[{}], class:[{}]", executor.getExecutorId(), executor.getClass().getName());
-            ExecutorFactory.addExecutor(executor.getExecutorId(), executor);
-        }
+        final Map<String, IExecutor> executors = event.getApplicationContext().getBeansOfType(IExecutor.class);
+        executors.forEach(
+                (name, executor)->{
+                    logger.info("注册executor: path:[{}], class:[{}]", executor.getExecutorId(), executor.getClass().getName());
+                    ExecutorFactory.addExecutor(executor.getExecutorId(), executor);
+                }
+        );
         logger.info("注册executor完成");
 
         logger.info("开始注册executor配置信息");

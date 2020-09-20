@@ -33,6 +33,8 @@ public class AuthFilter extends OncePerRequestFilter {
 
     private final static String TOKEN_HEADER = "B-TOKEN";
 
+    private final static String DEVICE_HEADER = "B-DEVICE";
+
     private final AuthService authService;
 
     public AuthFilter(AuthService authService) {
@@ -58,7 +60,9 @@ public class AuthFilter extends OncePerRequestFilter {
             //校验redis认证是否过期
             if (this.authService.auth(requestUser, token).isError()) {
                 //过期了
-                response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+                if (fromBrowser(request))
+                    response.sendRedirect("/login.html");
+                else response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
             } else {
                 //延长认证时间
                 this.authService.login(requestUser);
@@ -66,8 +70,23 @@ public class AuthFilter extends OncePerRequestFilter {
             }
         } else {
             //其余情况一律禁止
-            response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            if (fromBrowser(request))
+                response.sendRedirect("/login.html");
+            else response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
         }
+
+    }
+
+    /**
+     * 判断http请求是否来着浏览器,前端提供参数
+     * @param request http请求
+     * @return 如果请求头的B_DEVICE == 'browser'
+     */
+    private boolean fromBrowser(HttpServletRequest request) {
+
+        String device = request.getHeader(DEVICE_HEADER);
+
+        return StringUtils.hasLength(device) && "browser".equals(device.toLowerCase());
 
     }
 }
